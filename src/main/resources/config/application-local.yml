@@ -1,0 +1,35 @@
+spring:
+  datasource-hospdept:
+    url: jdbc:oracle:thin:@${DATABASE_URL}
+    username: uhospdept
+    password: uhospdept
+    driver:
+      class: oracle.jdbc.driver.OracleDriver
+  datasource-authorization:
+    url: jdbc:oracle:thin:@${DATABASE_URL}
+    username: uauthorization
+    password: uauthorization
+    driver:
+      class: oracle.jdbc.driver.OracleDriver
+  datasource-scheduler :
+    url : jdbc:oracle:thin:@${DATABASE_URL}
+    username : uscheduler
+    password : uscheduler
+    driver :
+      class : oracle.jdbc.driver.OracleDriver
+  quartz:
+    job-store-type: jdbc
+
+logging:
+  level:
+    org:
+      springframework:
+        web: INFO
+    com:
+      wavemark: DEBUG
+
+application:
+  host: https://ldec0609wmapp09.cardinalhealth.net
+  mail:
+    from-email:
+    support-emails:

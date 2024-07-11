@@ -1,0 +1,45 @@
+spring:
+  datasource-hospdept:
+    url: jdbc:oracle:thin:@ddec0609wmdb01.cdhhdsjj0b0x.us-east-1.rds.amazonaws.com:1521:WMRKDB
+    username: uhospdept
+    password: uhospdept
+    driver:
+      class: oracle.jdbc.driver.OracleDriver
+  datasource-authorization:
+    url: jdbc:oracle:thin:@ddec0609wmdb01.cdhhdsjj0b0x.us-east-1.rds.amazonaws.com:1521:WMRKDB
+    username: uauthorization
+    password: uauthorization
+    driver:
+      class: oracle.jdbc.driver.OracleDriver
+  datasource-distributor:
+    url: jdbc:oracle:thin:@ddec0609wmdb01.cdhhdsjj0b0x.us-east-1.rds.amazonaws.com:1521:WMRKDB
+    username: udistributor
+    password: udistributor
+    driver:
+      class: oracle.jdbc.driver.OracleDriver
+  datasource-mfr:
+    url: jdbc:oracle:thin:@ddec0609wmdb01.cdhhdsjj0b0x.us-east-1.rds.amazonaws.com:1521:WMRKDB
+    username: umfr
+    password: umfr
+    driver:
+      class: oracle.jdbc.driver.OracleDriver
+  datasource-multihospdept:
+    url: jdbc:oracle:thin:@ddec0609wmdb01.cdhhdsjj0b0x.us-east-1.rds.amazonaws.com:1521:WMRKDB
+    username: umultihospdept
+    password: umultihospdept
+    driver:
+      class : oracle.jdbc.driver.OracleDriver
+  datasource-support :
+    url : jdbc:oracle:thin:@ddec0609wmdb01.cdhhdsjj0b0x.us-east-1.rds.amazonaws.com:1521:WMRKDB
+    username : usupport
+    password : usupport
+    driver :
+      class : oracle.jdbc.driver.OracleDriver
+  datasource-scheduler :
+    url : jdbc:oracle:thin:@ddec0609wmdb01.cdhhdsjj0b0x.us-east-1.rds.amazonaws.com:1521:WMRKDB
+    username : uscheduler
+    password : uscheduler
+    driver :
+      class : oracle.jdbc.driver.OracleDriver
+  quartz:
+    job-store-type: jdbc

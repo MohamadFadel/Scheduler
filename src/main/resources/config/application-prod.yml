@@ -1,0 +1,36 @@
+logging:
+  level:
+    ROOT: INFO
+    com.wavemark: INFO
+
+spring:
+  datasource-scheduler:
+    jndi-name: scheduler
+    driver:
+      class: oracle.jdbc.driver.OracleDriver
+  datasource-authorization:
+    jndi-name: authorization
+    driver:
+      class: oracle.jdbc.driver.OracleDriver
+  devtools:
+    restart:
+      enabled: false
+    livereload:
+      enabled: false
+  mail:
+    host: dubinternalsmtp.cardinalhealth.net
+    properties:
+      mail:
+        smtp:
+          sendpartial: true
+          connecttimeout: 50000
+          timeout: 60000
+          writetimeout: 50000
+          auth: false
+          starttls:
+            enable: true
+application:
+  host: https://wmprod.cardinalhealth.net
+  mail:
+    from-email: DoNotReply@wavemark.com
+    support-emails: mohamad.fadel@cardinalhealth.com, mohammad.estaytieh@cardinalhealth.com, mohamad.melhem@cardinalhealth.com

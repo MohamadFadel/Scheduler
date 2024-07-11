@@ -1,0 +1,59 @@
+spring:
+  devtools:
+    restart:
+      enabled: true
+    livereload:
+      enabled: false # we use Webpack dev server + BrowserSync for livereload
+  jackson:
+    serialization:
+      indent_output: true
+  datasource-scheduler:
+    jndi-name: scheduler
+    driver:
+      class: oracle.jdbc.driver.OracleDriver
+  datasource-authorization:
+    jndi-name: authorization
+    driver:
+      class: oracle.jdbc.driver.OracleDriver
+  jpa:
+    database-platform: org.hibernate.dialect.Oracle12cDialect
+    database: ORACLE
+    show-sql: true
+    properties:
+      hibernate.cache.use_second_level_cache: false
+      hibernate.cache.use_query_cache: false
+      hibernate.generate_statistics: false
+      hibernate.cache.use_minimal_puts: true
+      hibernate.cache.hazelcast.use_lite_member: true
+      hibernate.id.new_generator_mappings: true
+      hibernate.show_sql: true
+  messages:
+    cache-duration: PT1S # 1 second, see the ISO 8601 standard
+  thymeleaf:
+    cache: false
+  mail:
+    host: dubstginternalsmtp.cardinalhealth.net
+    properties:
+      mail:
+        smtp:
+          sendpartial: true
+          connecttimeout: 50000
+          timeout: 60000
+          writetimeout: 50000
+          auth: false
+          starttls:
+            enable: true
+
+logging:
+  level:
+    org:
+      springframework:
+        web: INFO
+    com:
+      wavemark: DEBUG
+
+application:
+  host: #HOST
+  mail:
+    from-email: DoNotReply@wavemark.com
+    support-emails: mohamad.fadel@cardinalhealth.com, anthony.badran@cardinalhealth.com, mohammad.estaytieh@cardinalhealth.com, chloe.mhanna@cardinalhealth.com

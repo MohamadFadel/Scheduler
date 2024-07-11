@@ -1,0 +1,75 @@
+spring:
+  application:
+    name: Scheduler
+  profiles:
+    active: #PROFILE
+  liquibase:
+    enabled: false
+  datasource-scheduler:
+    jndi-name: scheduler
+    driver:
+      class: oracle.jdbc.driver.OracleDriver
+  datasource-authorization:
+    jndi-name: authorization
+    driver:
+      class: oracle.jdbc.driver.OracleDriver
+  jpa:
+    #    hibernate:
+    #      naming:
+    #        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    database-platform: org.hibernate.dialect.Oracle12cDialect
+    database: ORACLE
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.Oracle12cDialect
+        cache.use_second_level_cache: false
+        cache.use_query_cache: false
+        generate_statistics: false
+        cache.use_minimal_puts: true
+        cache.hazelcast.use_lite_member: true
+        id.new_generator_mappings: true
+        show_sql: true
+  quartz:
+    job-store-type: jdbc
+    jdbc:
+      initialize-schema: never
+    properties:
+      org:
+        quartz:
+          jobStore:
+            class: org.springframework.scheduling.quartz.LocalDataSourceJobStore
+            driverDelegateClass: org.quartz.impl.jdbcjobstore.oracle.OracleDelegate
+            dataSource: quartzDataSource
+            clusterCheckinInterval: 120000
+            isClustered: true
+          scheduler:
+            instanceName: WMClusteredSchedulerService
+            makeSchedulerThreadDaemon: true
+          threadPool:
+            class: org.quartz.simpl.SimpleThreadPool
+            makeThreadsDaemons: true
+            threadCount: 10
+            threadPriority: 5
+  mail:
+    host: dubstginternalsmtp.cardinalhealth.net
+    username:
+    password:
+    properties:
+      mail:
+        smtp:
+          sendpartial: true
+          connecttimeout: 50000
+          timeout: 60000
+          writetimeout: 50000
+          auth: false
+          starttls:
+            enable: true
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+application:
+  use:
+    tomcat: local, integration
+    http: local
