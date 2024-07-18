@@ -1,0 +1,16 @@
+rootProject.name = 'wm-app-scheduler'
+
+dependencyResolutionManagement {
+    repositories {
+        maven {
+            url = uri("https://nexus.cardinalhealth.net/repository/maven/")
+        }
+        mavenLocal()
+    }
+
+    versionCatalogs {
+        create("libs") {
+            from("com.cardinalhealth:wm-starter:0.0.58")
+        }
+    }
+}
