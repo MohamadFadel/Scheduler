@@ -29,7 +29,7 @@ logging:
       wavemark: DEBUG
 
 application:
-  host: https://ldec0609wmapp09.cardinalhealth.net
+  host: https://ldec0609wmapp09.cardinalhealth.net/
   mail:
     from-email:
     support-emails:
