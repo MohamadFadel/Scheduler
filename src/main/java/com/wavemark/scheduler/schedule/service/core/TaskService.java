@@ -1,13 +1,6 @@
 package com.wavemark.scheduler.schedule.service.core;
 
-import java.text.ParseException;
-import java.time.Instant;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import java.util.TimeZone;
-import java.util.stream.Collectors;
-
+import com.cardinalhealth.service.support.security.SecurityUtilsV2;
 import com.wavemark.scheduler.cron.exception.CronExpressionException;
 import com.wavemark.scheduler.cron.service.CronExpressionService;
 import com.wavemark.scheduler.schedule.constant.State;
@@ -15,13 +8,19 @@ import com.wavemark.scheduler.schedule.domain.entity.Task;
 import com.wavemark.scheduler.schedule.dto.request.TaskInput;
 import com.wavemark.scheduler.schedule.exception.EntryNotFoundException;
 import com.wavemark.scheduler.schedule.repository.TaskRepository;
-
-import com.cardinalhealth.service.support.security.SecurityUtilsV2;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.text.StringEscapeUtils;
 import org.quartz.CronExpression;
 import org.springframework.stereotype.Service;
+
+import java.text.ParseException;
+import java.time.Instant;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+import java.util.TimeZone;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -74,7 +73,7 @@ public class TaskService {
                 .taskName(jobName)
                 .sourceIdEndpointId(endpointId)
                 .description(taskInput.getDescription())
-                .createdBy(SecurityUtilsV2.getWebAppUserInfo().getFullName())
+//                .createdBy(SecurityUtilsV2.getWebAppUserInfo().getFullName())
                 .createdOn(Instant.now())
                 .taskStatus(String.valueOf(State.ACTIVE))
                 .configuration(taskInput.getBodyParam().toCharArray())
@@ -107,7 +106,7 @@ public class TaskService {
         task.setLogId(dbTask.getLogId());
 
         task.setDescription(taskInput.getDescription());
-        task.setLastUpdatedBy(SecurityUtilsV2.getWebAppUserInfo().getFullName());
+//        task.setLastUpdatedBy(SecurityUtilsV2.getWebAppUserInfo().getFullName());
         task.setLastUpdatedOn(Instant.now());
         task.setConfiguration(taskInput.getBodyParam().toCharArray());
         task.setEmailToList(taskInput.getEmails());

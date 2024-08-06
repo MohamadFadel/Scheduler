@@ -1,21 +1,16 @@
 package com.wavemark.scheduler.logging.recordlog.service;
 
-import java.sql.Timestamp;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Objects;
-
 import com.wavemark.scheduler.logging.recordlog.LogDiffable;
 import com.wavemark.scheduler.logging.recordlog.entity.RecordLog;
 import com.wavemark.scheduler.logging.recordlog.service.repository.RecordLogRepository;
 import com.wavemark.scheduler.schedule.domain.entity.Task;
 import com.wavemark.scheduler.schedule.service.core.TaskService;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.sql.Timestamp;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor

@@ -24,4 +24,18 @@ class JobDetailServiceTest {
         }
     }
 
+    @Test
+    void testBuildOldJobDetail() {
+        TaskInput taskInput = DataUtil.generateTaskInput();
+
+        JobDetailService jobDetailService = new JobDetailService();
+
+        try (MockedStatic<SecurityUtilsV2> securityUtils = mockStatic(SecurityUtilsV2.class)) {
+            securityUtils.when(SecurityUtilsV2::getCurrentAuthDepartment).thenReturn("testDep");
+
+            assertNotNull(jobDetailService.buildOldJobDetail(taskInput));
+        }
+    }
+
+
 }

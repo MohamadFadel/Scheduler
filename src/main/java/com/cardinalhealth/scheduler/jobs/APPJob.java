@@ -3,14 +3,21 @@ package com.cardinalhealth.scheduler.jobs;
 import com.cardinalhealth.scheduler.http.HTTPConnection;
 import com.cardinalhealth.scheduler.jobs.jobTypes.JobTypeExecution;
 import com.cardinalhealth.scheduler.jobs.switchJob.JobSupplier;
+import com.wavemark.scheduler.fire.http.property.HttpProperty;
+import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
+import org.springframework.stereotype.Service;
 
+import static com.wavemark.scheduler.common.constant.DataMapProperty.ENDPOINT_NAME;
+@Service
+@AllArgsConstructor
 public class APPJob extends AbstractJob
 {
   Logger logger = LogManager.getLogger(APPJob.class);
+  private final HTTPConnection httpConnection;
 
   public void execute(JobExecutionContext jobExecutionContext)
     throws JobExecutionException
@@ -30,7 +37,13 @@ public class APPJob extends AbstractJob
   private void executeJob (JobExecutionContext jobExecutionContext,JobTypeExecution job)
       throws Exception
   {
-    HTTPConnection.sendHTTPRequest(job.getUrl(), job.getJobParams());
+    HttpProperty httpProperty = HttpProperty.builder()
+            .url(job.getUrl())
+            .endpointName(jobExecutionContext.getJobDetail().getJobDataMap().get(ENDPOINT_NAME).toString())
+            .bodyParam(job.getJobParams().toString())
+            .taskName(jobExecutionContext.getJobDetail().getJobDataMap().get(PARAM_REPORT_INSTANCE_ID).toString())
+            .build();
+    httpConnection.sendHTTPRequest(job.getJobParams(), httpProperty);
     PostJobFiring.resumeJobErrorCounter(jobExecutionContext);
   }
 

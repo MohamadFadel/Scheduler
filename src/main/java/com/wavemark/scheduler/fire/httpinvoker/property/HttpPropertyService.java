@@ -1,20 +1,15 @@
 package com.wavemark.scheduler.fire.httpinvoker.property;
 
-import static com.wavemark.scheduler.common.constant.DataMapProperty.BODY_PARAM;
-import static com.wavemark.scheduler.common.constant.DataMapProperty.ENDPOINT_ID;
-import static com.wavemark.scheduler.common.constant.DataMapProperty.ENDPOINT_NAME;
-import static com.wavemark.scheduler.common.constant.DataMapProperty.NAME;
-
 import com.wavemark.scheduler.schedule.domain.entity.TaskType;
 import com.wavemark.scheduler.schedule.exception.EntryNotFoundException;
 import com.wavemark.scheduler.schedule.repository.TaskTypeRepository;
-import com.wavemark.scheduler.schedule.service.core.TaskTypeService;
-
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.quartz.JobDataMap;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import static com.wavemark.scheduler.common.constant.DataMapProperty.*;
 
 @Service
 @RequiredArgsConstructor

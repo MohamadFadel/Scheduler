@@ -1,11 +1,5 @@
 package com.wavemark.scheduler.cron.service;
 
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.TimeZone;
-
 import com.wavemark.scheduler.cron.constant.DayOfMonth;
 import com.wavemark.scheduler.cron.constant.DayOfWeek;
 import com.wavemark.scheduler.cron.constant.Frequency;
@@ -16,8 +10,13 @@ import com.wavemark.scheduler.cron.util.CronExpressionDescriptor;
 import com.wavemark.scheduler.cron.util.CronExpressionParser;
 import com.wavemark.scheduler.cron.util.CronExpressionUtil;
 import com.wavemark.scheduler.schedule.dto.request.TaskFrequencyInput;
-
 import org.springframework.stereotype.Service;
+
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.TimeZone;
 
 @Service
 public class CronExpressionService {
@@ -99,8 +98,7 @@ public class CronExpressionService {
                 String[] dayHourArray = CronExpressionUtil.getConvertedDayHourArray(cronDescription, timezoneHoursDifference);
 
                 List<DayOfWeek> daysOfWeek = new ArrayList<>();
-                for (int i=0; i<dayHourArray.length; i=i+2)
-                {
+                for (int i = 0; i < dayHourArray.length; i = i + 2) {
                     String convertedDay = dayHourArray[i];
                     daysOfWeek.add(DayOfWeek.valueOf(convertedDay));
                 }

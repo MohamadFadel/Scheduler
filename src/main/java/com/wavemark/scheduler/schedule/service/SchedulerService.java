@@ -84,6 +84,7 @@ public class SchedulerService {
         clusteredScheduler.pauseJob(jobKey);
 
         JobDetail jobDetail = jobDetailService.buildJobDetail(taskInput, task.getTaskName());
+
         Trigger trigger = triggerService.buildTrigger(taskInput, jobDetail, task.getTaskName(), task.getCronExpression());
 
         log.info("Calling logTaskUpdateRecordLog method to log into RecordLog Table");

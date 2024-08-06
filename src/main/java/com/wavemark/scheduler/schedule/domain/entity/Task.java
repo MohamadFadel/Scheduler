@@ -1,21 +1,7 @@
 package com.wavemark.scheduler.schedule.domain.entity;
 
-import java.io.Serializable;
-import java.time.Instant;
-import java.util.Objects;
-import java.util.TimeZone;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.Table;
-
 import com.wavemark.scheduler.schedule.constant.State;
 import com.wavemark.scheduler.schedule.dto.logdiffable.TaskLogDiffable;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,13 +9,19 @@ import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.SerializationUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import javax.persistence.*;
+import java.io.Serializable;
+import java.time.Instant;
+import java.util.Objects;
+import java.util.TimeZone;
+
 @Data
 @Table(name = "TASK")
 @Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Task implements Serializable {
+public class Task implements Serializable, Schedulable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -73,4 +65,35 @@ public class Task implements Serializable {
                 .hospitalDepartmentTimeZone(this.getHospitalDepartmentTimeZone().getID())
                 .build();
     }
+
+    @Override
+    public Integer getSchedulableId() {
+        return taskId;
+    }
+
+    @Override
+    public String getTaskName() {
+        return taskName;
+    }
+
+    @Override
+    public String getIdentification() {
+        return taskName;
+    }
+
+    @Override
+    public void setLastSuccessfulRunLogId(int lastSuccessfulRunLogId) {
+        this.lastSuccessfulRunLogId = lastSuccessfulRunLogId;
+    }
+
+    @Override
+    public void setNextScheduledRun(Instant nextScheduledRun) {
+        this.nextScheduledRun = nextScheduledRun;
+    }
+
+    @Override
+    public TimeZone getTimeZone() {
+        return hospitalDepartmentTimeZone;
+    }
+
 }

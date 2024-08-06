@@ -1,21 +1,8 @@
 package com.wavemark.scheduler.testing.util;
 
-import static com.wavemark.scheduler.common.constant.DataMapProperty.BODY_PARAM;
-import static com.wavemark.scheduler.common.constant.DataMapProperty.CLUSTERED_JOBS_GROUP;
-import static com.wavemark.scheduler.common.constant.DataMapProperty.ENDPOINT_ID;
-import static com.wavemark.scheduler.common.constant.DataMapProperty.ENDPOINT_NAME;
-import static com.wavemark.scheduler.common.constant.DataMapProperty.NAME;
-
-import java.sql.Timestamp;
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
-import java.util.TimeZone;
-
+import com.cardinalhealth.scheduler.jobs.APPJob;
+import com.cardinalhealth.service.support.constant.ContentType;
+import com.cardinalhealth.service.support.models.Email;
 import com.wavemark.scheduler.fire.constant.TriggerState;
 import com.wavemark.scheduler.fire.http.property.HttpProperty;
 import com.wavemark.scheduler.fire.http.response.HttpResponse;
@@ -23,6 +10,7 @@ import com.wavemark.scheduler.fire.task.ScheduledTask;
 import com.wavemark.scheduler.logging.errorlog.entity.ErrorLog;
 import com.wavemark.scheduler.logging.recordlog.entity.RecordLog;
 import com.wavemark.scheduler.schedule.constant.State;
+import com.wavemark.scheduler.schedule.domain.entity.ReportInstanceConfig;
 import com.wavemark.scheduler.schedule.domain.entity.Task;
 import com.wavemark.scheduler.schedule.domain.entity.TaskRunLog;
 import com.wavemark.scheduler.schedule.domain.entity.TaskType;
@@ -31,17 +19,48 @@ import com.wavemark.scheduler.schedule.dto.logdiffable.TaskLogDiffable;
 import com.wavemark.scheduler.schedule.dto.request.TaskFrequencyInput;
 import com.wavemark.scheduler.schedule.dto.request.TaskInput;
 import com.wavemark.scheduler.schedule.dto.response.TaskUpdateLogResponse;
+import org.quartz.*;
 
-import com.cardinalhealth.service.support.constant.ContentType;
-import com.cardinalhealth.service.support.models.Email;
-import org.quartz.CronScheduleBuilder;
-import org.quartz.JobBuilder;
-import org.quartz.JobDataMap;
-import org.quartz.JobDetail;
-import org.quartz.Trigger;
-import org.quartz.TriggerBuilder;
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.util.Calendar;
+import java.util.*;
+
+import static com.wavemark.scheduler.common.constant.DataMapProperty.*;
+import static com.wavemark.scheduler.schedule.service.quartz.JobDetailService.PARAM_REPORT_INSTANCE_ID;
+import static com.wavemark.scheduler.schedule.service.quartz.JobDetailService.PARAM_USER_TOKEN;
 
 public abstract class DataUtil {
+
+    public static Object[] generateWrapper(){
+        return new Object[]{generateTaskInput(),generateReportInstanceConfig()};
+    }
+
+    public static ReportInstanceConfig generateReportInstanceConfig() {
+        return ReportInstanceConfig.builder()
+                .id(1L)
+                .reportname("Test Report")
+                .actionname("Test Action")
+                .classname("TestClass")
+                .reportinstancename("Test Instance")
+                .userid("TestUser")
+                .reportstate(new char[]{'A'})
+                .cronschedule("0 0/5 * * * ?")
+                .emailformat("text")
+                .emailrecipients("test@example.com")
+                .status("ACTIVE")
+                .emailifempty("test@example.com")
+                .lastupdateddate(Timestamp.from(Instant.now()))
+                .comments("Test comments")
+                .endpointid("Endpoint1")
+                .timezonename("UTC")
+                .wmcomments("WM Comments")
+                .logId(1)
+                .nextScheduledRun(Instant.now())
+                .lastRunLogId(1)
+                .lastSuccessfulRunLogId(1)
+                .build();
+    }
 
     public static TaskFrequencyInput generateTaskFrequencyInput() {
         return new TaskFrequencyInput("monthly", Collections.singletonList(30),
@@ -50,11 +69,11 @@ public abstract class DataUtil {
     }
 
     public static TaskInput generateTaskInput() {
-        return new TaskInput("Auto-Order", "testDescription", "testBodyParam", generateTaskFrequencyInput(), "test@test.com");
+        return new TaskInput("Auto-Order", "testDescription", "userToken","111","testBodyParam", generateTaskFrequencyInput(), "test@test.com");
     }
 
     public static TaskInput generateTaskInputUpdated() {
-        return new TaskInput("Auto-Order", "updatedTestDescription",
+        return new TaskInput("Auto-Order", "updatedTestDescription", "updatedUserToken","111",
                 "updatedTestBodyParam", generateTaskFrequencyInput(), "updatedTest@test.com");
     }
 
@@ -166,6 +185,16 @@ public abstract class DataUtil {
                 .withDescription("testDescription")
                 .usingJobData(NAME, "testName")
                 .usingJobData(BODY_PARAM, "{ testBodyParam: test }")
+                .requestRecovery()
+                .storeDurably()
+                .build();
+    }
+    public static JobDetail generateOldJobDetail() {
+        return JobBuilder.newJob(APPJob.class)
+                .withIdentity("testName", CLUSTERED_JOBS_GROUP)
+                .withDescription("testDescription")
+                .usingJobData(PARAM_REPORT_INSTANCE_ID, "1")
+                .usingJobData(PARAM_USER_TOKEN, "testUserToken")
                 .requestRecovery()
                 .storeDurably()
                 .build();

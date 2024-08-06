@@ -1,12 +1,6 @@
 package com.wavemark.scheduler.schedule.service.quartz;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doReturn;
-
-import com.wavemark.scheduler.schedule.service.quartz.TriggerService;
 import com.wavemark.scheduler.testing.util.DataUtil;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -15,6 +9,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.Trigger;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doReturn;
 
 @ExtendWith(MockitoExtension.class)
 class TriggerServiceTest {
@@ -31,6 +29,14 @@ class TriggerServiceTest {
         Trigger result = triggerService
                 .buildTrigger(DataUtil.generateTaskInput(), DataUtil.generateJobDetail(),
                         "testName", "0 0/1 * * * ?");
+
+        assertNotNull(result);
+    }
+    @Test
+    void testBuildOldTrigger(){
+        Trigger result = triggerService
+                .buildOldTrigger("0 0/1 * * * ?",DataUtil.generateTaskInput(),
+                        DataUtil.generateOldJobDetail());
 
         assertNotNull(result);
     }

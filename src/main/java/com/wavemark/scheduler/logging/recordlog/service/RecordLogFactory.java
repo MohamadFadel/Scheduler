@@ -26,7 +26,7 @@ public class RecordLogFactory {
 						oneDiff.setTableName(newLogDiffable.getTableName());
 						oneDiff.setFieldName(diff.getFieldName());
 						oneDiff.setUpdatedDate(Instant.now());
-						oneDiff.setUpdatedBy(SecurityUtilsV2.getWebAppUserInfo().getFullName());
+//						oneDiff.setUpdatedBy(SecurityUtilsV2.getWebAppUserInfo().getFullName());
 						oneDiff.setNewValue(Objects.nonNull(diff.getRight()) ? diff.getRight().toString() : "");
 						oneDiff.setOldValue(Objects.nonNull(diff.getLeft()) ? diff.getLeft().toString() : "");
 						oneDiff.setLogId(logId);

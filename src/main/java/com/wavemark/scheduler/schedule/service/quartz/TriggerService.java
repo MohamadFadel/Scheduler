@@ -1,21 +1,13 @@
 package com.wavemark.scheduler.schedule.service.quartz;
 
-import static com.wavemark.scheduler.common.constant.DataMapProperty.CLUSTERED_JOBS_GROUP;
+import com.wavemark.scheduler.schedule.dto.request.TaskInput;
+import lombok.RequiredArgsConstructor;
+import org.quartz.*;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import com.wavemark.scheduler.schedule.dto.request.TaskInput;
-
-import lombok.RequiredArgsConstructor;
-import org.quartz.CronScheduleBuilder;
-import org.quartz.CronTrigger;
-import org.quartz.JobDetail;
-import org.quartz.JobKey;
-import org.quartz.Scheduler;
-import org.quartz.SchedulerException;
-import org.quartz.Trigger;
-import org.quartz.TriggerBuilder;
-import org.springframework.stereotype.Service;
+import static com.wavemark.scheduler.common.constant.DataMapProperty.CLUSTERED_JOBS_GROUP;
 
 @Service
 @RequiredArgsConstructor
@@ -34,10 +26,21 @@ public class TriggerService {
                 .build();
     }
 
+    public Trigger buildOldTrigger(String cronExpression, TaskInput taskInput, JobDetail jobDetail) {
+        return TriggerBuilder.newTrigger()
+                .withIdentity(taskInput.getReportInstanceId() + "_TRG", CLUSTERED_JOBS_GROUP)
+                .withSchedule(CronScheduleBuilder.cronSchedule(cronExpression)
+                        //.inTimeZone(timeZone)
+                        .withMisfireHandlingInstructionFireAndProceed())
+                .forJob(jobDetail)
+                .build();
+    }
+
     public Trigger getTrigger(String taskName) throws SchedulerException {
 
         List<? extends Trigger> triggers = clusteredScheduler.getTriggersOfJob(new JobKey(taskName, CLUSTERED_JOBS_GROUP));
         return triggers.stream().filter(trigger -> trigger instanceof CronTrigger).findFirst().orElse(null);
     }
+
 
 }

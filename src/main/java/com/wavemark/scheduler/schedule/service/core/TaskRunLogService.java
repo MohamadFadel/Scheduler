@@ -2,7 +2,7 @@ package com.wavemark.scheduler.schedule.service.core;
 
 import com.cardinalhealth.service.support.security.SecurityUtilsV2;
 import com.wavemark.scheduler.fire.constant.TriggerState;
-import com.wavemark.scheduler.schedule.domain.entity.Task;
+import com.wavemark.scheduler.schedule.domain.entity.Schedulable;
 import com.wavemark.scheduler.schedule.domain.entity.TaskRunLog;
 import com.wavemark.scheduler.schedule.domain.projection.TaskRunLogRP;
 import com.wavemark.scheduler.schedule.exception.EntryNotFoundException;
@@ -34,7 +34,7 @@ public class TaskRunLogService {
         return taskRunLogRepository.getTaskRunLogReport(SecurityUtilsV2.getCurrentAuthDepartment());
     }
 
-    public TaskRunLog buildTaskRunLog(Task dbTask, String responseMessage, Integer responseCode, long time)
+    public TaskRunLog buildTaskRunLog(Schedulable schedulable, String responseMessage, Integer responseCode, long time)
             throws SchedulerException {
 
         String instanceName = schedulerFactoryBean.getScheduler().getSchedulerInstanceId();
@@ -43,10 +43,10 @@ public class TaskRunLogService {
             responseMessage = responseMessage.substring(0, 3950);
 
         return TaskRunLog.builder()
-                .taskId(dbTask.getTaskId())
-                .taskName(dbTask.getTaskName())
-                .taskDescription(dbTask.getDescription())
-                .taskCronExpression(dbTask.getCronExpression())
+                .taskId(schedulable.getSchedulableId())
+                .taskName(schedulable.getTaskName())
+                .taskDescription(schedulable.getDescription())
+                .taskCronExpression(schedulable.getCronExpression())
                 .responseCode(responseCode)
                 .runStartDate(Instant.now())
                 .runEndDate(Instant.now().plusMillis(time))
@@ -56,6 +56,7 @@ public class TaskRunLogService {
                 .runDuration(time)
                 .build();
     }
+
 
     public Integer saveTaskRunLog(TaskRunLog taskRunLog) {
         TaskRunLog dbTaskRunLog = taskRunLogRepository.save(taskRunLog);

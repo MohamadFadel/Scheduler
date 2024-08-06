@@ -1,6 +1,10 @@
 package com.cardinalhealth.scheduler.http;
 
 import com.cardinalhealth.scheduler.utility.Settings;
+import com.wavemark.scheduler.fire.http.property.HttpProperty;
+import com.wavemark.scheduler.fire.http.response.ResponseHandler;
+import com.wavemark.scheduler.schedule.exception.EntryNotFoundException;
+import lombok.AllArgsConstructor;
 import org.apache.commons.codec.Charsets;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
@@ -14,24 +18,40 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.quartz.JobExecutionException;
+import org.quartz.SchedulerException;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-
+@Service
+@AllArgsConstructor
 public class HTTPConnection
 {
-  public static int sendHTTPRequest(String url, List<NameValuePair> postParams)
-    throws IOException, ClientProtocolException
-  {
+  private ResponseHandler responseHandler;
+  public int sendHTTPRequest(List<NameValuePair> postParams, HttpProperty httpProperty)
+          throws IOException, ClientProtocolException, SchedulerException, EntryNotFoundException {
     Logger logger = LogManager.getLogger(HTTPConnection.class);
+
+    long time = System.currentTimeMillis();
+
     HttpClient client = HttpClientBuilder.create().build();
-    HttpPost post = new HttpPost(url);
+    HttpPost post = new HttpPost(httpProperty.getUrl());
     post.setEntity(new UrlEncodedFormEntity(postParams, "UTF-8"));
     HttpResponse response = client.execute(post);
     int statusCode = response.getStatusLine().getStatusCode();
+
+    try {
+      responseHandler.handleJob(httpProperty, response, System.currentTimeMillis() - time);
+    } catch (Exception e) {
+      if (!e.getMessage().startsWith("[FIRED]"))
+        responseHandler.handleJobError(httpProperty, e, System.currentTimeMillis() - time);
+      throw new JobExecutionException(e);
+    }
+
     logger.info("Response return with status code: " + statusCode);
     HttpEntity entity = response.getEntity();
     if(entity != null)
@@ -44,17 +64,17 @@ public class HTTPConnection
     return statusCode;
   }
 
-  public static String getAPIJobServerURL(String methodPath)
+  public String getAPIJobServerURL(String methodPath)
   {
     return getServerURL() + "/wm-ws/" + methodPath;
   }
   
-  public static String getAPPJobServerURL(String actionName)
+  public String getAPPJobServerURL(String actionName)
   {
     return getServerURL() + "/quartz/"+actionName+".action";
   }
   
-  private static String getServerURL()
+  private String getServerURL()
   {
     return Settings.getSettingValue("server.listen.address");
   }

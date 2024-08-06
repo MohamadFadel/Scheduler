@@ -3,7 +3,7 @@ package com.wavemark.scheduler.fire.http.response.email;
 import com.cardinalhealth.service.support.models.Email;
 import com.cardinalhealth.service.support.service.email.impl.EmailServiceImpl;
 import com.wavemark.scheduler.fire.http.response.HttpResponse;
-import com.wavemark.scheduler.schedule.domain.entity.Task;
+import com.wavemark.scheduler.schedule.domain.entity.Schedulable;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -17,11 +17,11 @@ public class ResponseEmailService {
     private final ResponseEmailFactory responseEmailFactory;
     private final EmailServiceImpl emailService;
 
-    public void sendEmailMessage(Task task, HttpResponse httpResponse, String endpointName) {
+    public void sendEmailMessage(Schedulable schedulable, HttpResponse httpResponse, String endpointName) {
 
-        if (!httpResponse.isSuccess() && StringUtils.isNotBlank(task.getEmailToList())) {
+        if (!httpResponse.isSuccess() && StringUtils.isNotBlank(schedulable.getEmailToList())) {
             try {
-                Email responseCustomerEmail = responseEmailFactory.generateResponseCustomerEmail(task, httpResponse.getCode(), endpointName);
+                Email responseCustomerEmail = responseEmailFactory.generateResponseCustomerEmail(schedulable, httpResponse.getCode(), endpointName);
 
                 emailService.send(responseCustomerEmail);
 
@@ -32,7 +32,7 @@ public class ResponseEmailService {
         }
 
         try {
-            Email responseSupportEmail = responseEmailFactory.generateResponseSupportEmail(task, httpResponse, endpointName);
+            Email responseSupportEmail = responseEmailFactory.generateResponseSupportEmail(schedulable, httpResponse, endpointName);
 
             emailService.send(responseSupportEmail);
 
@@ -41,5 +41,4 @@ public class ResponseEmailService {
             log.error("[ERROR] Support email not sent.");
         }
     }
-
 }
