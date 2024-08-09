@@ -1,7 +1,7 @@
-package com.cardinalhealth.scheduler.datasources;
+package com.wavemark.scheduler.cardinalhealth.scheduler.datasources;
 
-import com.cardinalhealth.scheduler.security.Decryption;
-import com.cardinalhealth.scheduler.utility.Settings;
+import com.wavemark.scheduler.cardinalhealth.scheduler.security.Decryption;
+import com.wavemark.scheduler.cardinalhealth.scheduler.utility.Settings;
 
 public class DBConnection
 {

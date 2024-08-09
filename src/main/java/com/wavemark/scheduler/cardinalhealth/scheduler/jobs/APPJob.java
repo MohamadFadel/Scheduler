@@ -1,8 +1,8 @@
-package com.cardinalhealth.scheduler.jobs;
+package com.wavemark.scheduler.cardinalhealth.scheduler.jobs;
 
-import com.cardinalhealth.scheduler.http.HTTPConnection;
-import com.cardinalhealth.scheduler.jobs.jobTypes.JobTypeExecution;
-import com.cardinalhealth.scheduler.jobs.switchJob.JobSupplier;
+import com.wavemark.scheduler.cardinalhealth.scheduler.jobs.jobTypes.JobTypeExecution;
+import com.wavemark.scheduler.cardinalhealth.scheduler.jobs.switchJob.JobSupplier;
+import com.wavemark.scheduler.cardinalhealth.scheduler.http.HTTPConnection;
 import com.wavemark.scheduler.fire.http.property.HttpProperty;
 import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;

@@ -1,4 +1,4 @@
-package com.cardinalhealth.scheduler.jobs.jobTypes;
+package com.wavemark.scheduler.cardinalhealth.scheduler.jobs.jobTypes;
 
 import org.apache.http.NameValuePair;
 

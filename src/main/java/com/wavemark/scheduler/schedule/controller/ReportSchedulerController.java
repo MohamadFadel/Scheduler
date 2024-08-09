@@ -1,11 +1,10 @@
 package com.wavemark.scheduler.schedule.controller;
 
 import com.wavemark.scheduler.cron.exception.CronExpressionException;
-import com.wavemark.scheduler.schedule.domain.entity.ReportInstanceConfig;
 import com.wavemark.scheduler.logging.performancelogging.constant.LogPerformanceTime;
 import com.wavemark.scheduler.logging.performancelogging.constant.LogType;
 import com.wavemark.scheduler.schedule.constant.Success;
-import com.wavemark.scheduler.schedule.dto.request.TaskInput;
+import com.wavemark.scheduler.schedule.dto.request.ReportSchedulerInput;
 import com.wavemark.scheduler.schedule.exception.EntryNotFoundException;
 import com.wavemark.scheduler.schedule.service.ReportSchedulerService;
 import io.swagger.annotations.ApiResponse;
@@ -29,24 +28,20 @@ public class ReportSchedulerController {
     @ApiResponses(value = {@ApiResponse(code = 400, message = "Bad request (includes invalid input)")})
     @PostMapping("/reportScheduler")
     @LogPerformanceTime(logType = LogType.APP)
-    public ResponseEntity<?> scheduleReportInstanceConfig(@Valid @RequestBody Object []wrapper)
+    public ResponseEntity<?> scheduleReportInstanceConfig(@Valid @RequestBody ReportSchedulerInput reportSchedulerInput)
             throws SchedulerException, CronExpressionException {
-        TaskInput taskInput = (TaskInput) wrapper[0];
-        ReportInstanceConfig reportInstanceConfig = (ReportInstanceConfig) wrapper[1];
 
-        reportSchedulerService.scheduleReportInstance(reportInstanceConfig, taskInput);
+        reportSchedulerService.scheduleReportInstance(reportSchedulerInput.getReportInstanceInput(), reportSchedulerInput.getTaskInput());
         return new ResponseEntity<>(new Success(), HttpStatus.OK);
     }
 
     @ApiResponses(value = {@ApiResponse(code = 400, message = "Bad request (includes invalid input)")})
     @PostMapping("/reportScheduler/{reportId}")
     @LogPerformanceTime(logType = LogType.APP)
-    public ResponseEntity<?> updateReportInstanceConfig(@Valid @PathVariable String reportId, @RequestBody Object []wrapper)
+    public ResponseEntity<?> updateReportInstanceConfig(@Valid @PathVariable String reportId, @RequestBody ReportSchedulerInput reportSchedulerInput)
             throws SchedulerException, CronExpressionException, EntryNotFoundException {
-        TaskInput taskInput = (TaskInput) wrapper[0];
-        ReportInstanceConfig reportInstanceConfig = (ReportInstanceConfig) wrapper[1];
 
-        reportSchedulerService.updateReportInstance(reportId, reportInstanceConfig, taskInput);
+        reportSchedulerService.updateReportInstance(reportId, reportSchedulerInput.getReportInstanceInput(), reportSchedulerInput.getTaskInput());
         return new ResponseEntity<>(new Success(), HttpStatus.OK);
     }
 

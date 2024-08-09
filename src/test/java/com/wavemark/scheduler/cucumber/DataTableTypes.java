@@ -1,12 +1,11 @@
 package com.wavemark.scheduler.cucumber;
 
-import java.util.Collections;
-import java.util.Map;
-
 import com.wavemark.scheduler.schedule.dto.request.TaskFrequencyInput;
 import com.wavemark.scheduler.schedule.dto.request.TaskInput;
-
 import io.cucumber.java.DataTableType;
+
+import java.util.Collections;
+import java.util.Map;
 
 public class DataTableTypes {
 
@@ -25,6 +24,8 @@ public class DataTableTypes {
         return new TaskInput(
                 entry.get("taskType"),
                 entry.get("description"),
+                entry.get("userToken"),
+                entry.get("reportInstanceId"),
                 entry.get("bodyParam"),
                 taskFrequencyInput,
                 entry.get("emails")

@@ -4,6 +4,7 @@ import com.wavemark.scheduler.cron.exception.CronExpressionException;
 import com.wavemark.scheduler.schedule.domain.entity.ReportInstanceConfig;
 import com.wavemark.scheduler.logging.recordlog.service.RecordLogService;
 import com.wavemark.scheduler.schedule.constant.State;
+import com.wavemark.scheduler.schedule.dto.request.ReportInstanceInput;
 import com.wavemark.scheduler.schedule.dto.request.TaskInput;
 import com.wavemark.scheduler.schedule.exception.EntryNotFoundException;
 import com.wavemark.scheduler.schedule.service.core.ReportInstanceService;
@@ -27,7 +28,7 @@ public class ReportSchedulerService {
     private final ReportInstanceService reportInstanceService;
 
 
-    public void scheduleReportInstance(ReportInstanceConfig reportInstanceConfig, TaskInput taskInput)
+    public void scheduleReportInstance(ReportInstanceInput reportInstanceInput, TaskInput taskInput)
             throws SchedulerException, CronExpressionException {
 //        log.info("Creating a Job Detail");
 //        JobDetail jobDetail = jobDetailService.buildOldJobDetail(taskInput);
@@ -37,6 +38,8 @@ public class ReportSchedulerService {
 //
 //        log.info("Creating a cron trigger");
 //        Trigger trigger = triggerService.buildOldTrigger(cronExpression, taskInput, jobDetail);
+        ReportInstanceConfig reportInstanceConfig = reportInstanceService.buildReportInstanceConfig(reportInstanceInput);
+
         Long reportId = reportInstanceService.getNewReportId();
         taskInput.setReportInstanceId(reportId.toString());
         reportInstanceConfig.setId(reportId);
@@ -49,9 +52,10 @@ public class ReportSchedulerService {
         reportInstanceService.saveReportInstance(reportInstanceConfig);
     }
 
-    public void updateReportInstance(String reportId, ReportInstanceConfig reportInstanceConfig, TaskInput taskInput)
+    public void updateReportInstance(String reportId, ReportInstanceInput reportInstanceInput, TaskInput taskInput)
             throws SchedulerException, CronExpressionException, EntryNotFoundException {
 
+        ReportInstanceConfig reportInstanceConfig = reportInstanceService.buildReportInstanceConfig(reportInstanceInput);
         ReportInstanceConfig oldReportInstanceConfig = reportInstanceService.findReportById(Long.parseLong(reportId));
 //        JobKey jobKey = new JobKey(reportId, CLUSTERED_JOBS_GROUP);
 //        TriggerKey triggerKey = new TriggerKey(reportId + "_TRG", CLUSTERED_JOBS_GROUP);

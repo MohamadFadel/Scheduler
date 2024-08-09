@@ -1,7 +1,8 @@
-package com.cardinalhealth.scheduler.jobs;
+package com.wavemark.scheduler.cardinalhealth.scheduler.jobs;
 
-import com.cardinalhealth.scheduler.http.HTTPConnection;
-import com.cardinalhealth.scheduler.http.HTTPParameter;
+import com.wavemark.scheduler.cardinalhealth.scheduler.http.HTTPConnection;
+import com.wavemark.scheduler.cardinalhealth.scheduler.http.HTTPParameter;
+import com.wavemark.scheduler.cardinalhealth.scheduler.http.HTTPUrl;
 import com.wavemark.scheduler.fire.http.property.HttpProperty;
 import lombok.AllArgsConstructor;
 import org.apache.http.NameValuePair;
@@ -27,7 +28,7 @@ public class APIJob extends AbstractJob
     logger.info("Invoke execute in APIJob");
     try
     {
-      String url = httpConnection.getAPIJobServerURL("wminternal/updateReceivingCost");
+      String url = HTTPUrl.getAPIJobServerURL("wminternal/updateReceivingCost");
       List<NameValuePair> params = HTTPParameter.getAPIParam(jobExecutionContext.getMergedJobDataMap(), "UpdateReceivingCost");
       HttpProperty httpProperty = HttpProperty.builder()
               .url(url)

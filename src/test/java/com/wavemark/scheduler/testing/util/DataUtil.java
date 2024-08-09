@@ -1,6 +1,6 @@
 package com.wavemark.scheduler.testing.util;
 
-import com.cardinalhealth.scheduler.jobs.APPJob;
+import com.wavemark.scheduler.cardinalhealth.scheduler.jobs.APPJob;
 import com.cardinalhealth.service.support.constant.ContentType;
 import com.cardinalhealth.service.support.models.Email;
 import com.wavemark.scheduler.fire.constant.TriggerState;
@@ -10,15 +10,15 @@ import com.wavemark.scheduler.fire.task.ScheduledTask;
 import com.wavemark.scheduler.logging.errorlog.entity.ErrorLog;
 import com.wavemark.scheduler.logging.recordlog.entity.RecordLog;
 import com.wavemark.scheduler.schedule.constant.State;
-import com.wavemark.scheduler.schedule.domain.entity.ReportInstanceConfig;
-import com.wavemark.scheduler.schedule.domain.entity.Task;
-import com.wavemark.scheduler.schedule.domain.entity.TaskRunLog;
-import com.wavemark.scheduler.schedule.domain.entity.TaskType;
+import com.wavemark.scheduler.schedule.domain.entity.*;
 import com.wavemark.scheduler.schedule.domain.projection.TaskRunLogRP;
 import com.wavemark.scheduler.schedule.dto.logdiffable.TaskLogDiffable;
+import com.wavemark.scheduler.schedule.dto.request.ReportInstanceInput;
+import com.wavemark.scheduler.schedule.dto.request.ReportSchedulerInput;
 import com.wavemark.scheduler.schedule.dto.request.TaskFrequencyInput;
 import com.wavemark.scheduler.schedule.dto.request.TaskInput;
 import com.wavemark.scheduler.schedule.dto.response.TaskUpdateLogResponse;
+import org.json.JSONObject;
 import org.quartz.*;
 
 import java.sql.Timestamp;
@@ -32,9 +32,31 @@ import static com.wavemark.scheduler.schedule.service.quartz.JobDetailService.PA
 
 public abstract class DataUtil {
 
-    public static Object[] generateWrapper(){
-        return new Object[]{generateTaskInput(),generateReportInstanceConfig()};
+    public static ReportSchedulerInput generateReportSchedulerInput(){
+        return new ReportSchedulerInput(generateTaskInput(), generateReportInstanceInput());
     }
+
+    public static ReportInstanceInput generateReportInstanceInput(){
+
+        return ReportInstanceInput.builder()
+                .reportInstanceId(1L)
+                .reportName("Test Report")
+                .actionName("Test Action")
+                .className("TestClass")
+                .reportInstanceName("Test Instance")
+                .userId("TestUser")
+                .endPointIdHospDept("Endpoint1")
+                .reportState(new JSONObject())
+                .emailFormat("text")
+                .emailRecipients("test@example.com")
+                .comments("Test comments")
+                .status("ACTIVE")
+                .emailIfEmpty("test@example.com")
+                .timezone("UTC")
+                .language("en")
+                .build();
+    }
+
 
     public static ReportInstanceConfig generateReportInstanceConfig() {
         return ReportInstanceConfig.builder()
@@ -54,7 +76,7 @@ public abstract class DataUtil {
                 .comments("Test comments")
                 .endpointid("Endpoint1")
                 .timezonename("UTC")
-                .wmcomments("WM Comments")
+                .wmcomment("WM Comment")
                 .logId(1)
                 .nextScheduledRun(Instant.now())
                 .lastRunLogId(1)
@@ -225,6 +247,15 @@ public abstract class DataUtil {
     public static HttpProperty generateHttpProperty() {
         return HttpProperty.builder()
                 .taskName("taskName")
+                .endpointName("endpointName")
+                .url("http://localhost:8081/url")
+                .bodyParam("{ testBodyParam: test }")
+                .build();
+    }
+
+    public static HttpProperty generateOldHttpProperty() {
+        return HttpProperty.builder()
+                .taskName("1")
                 .endpointName("endpointName")
                 .url("http://localhost:8081/url")
                 .bodyParam("{ testBodyParam: test }")

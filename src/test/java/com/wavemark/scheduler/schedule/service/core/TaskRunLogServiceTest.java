@@ -77,8 +77,11 @@ class TaskRunLogServiceTest {
         when(scheduler.getSchedulerInstanceId()).thenReturn("testInstance");
 
         TaskRunLog taskRunLog = taskRunLogService.buildTaskRunLog(DataUtil.generateTask(), "responseMessage", 200, 54L);
+        TaskRunLog taskRunLog2 = taskRunLogService.buildTaskRunLog(DataUtil.generateReportInstanceConfig(), "responseMessage", 200, 54L);
 
         assertNotNull(taskRunLog);
+        assertNotNull(taskRunLog2);
+
     }
 
     @Test

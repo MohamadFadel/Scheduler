@@ -1,4 +1,4 @@
-package com.cardinalhealth.scheduler.security;
+package com.wavemark.scheduler.cardinalhealth.scheduler.security;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;

@@ -1,4 +1,4 @@
-package com.cardinalhealth.scheduler.jobs;
+package com.wavemark.scheduler.cardinalhealth.scheduler.jobs;
 
 
 public enum JobType

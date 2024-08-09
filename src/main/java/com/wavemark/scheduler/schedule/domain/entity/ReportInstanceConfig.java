@@ -24,7 +24,7 @@ import java.util.TimeZone;
 @AllArgsConstructor
 public class ReportInstanceConfig implements Serializable, Schedulable{
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
     private Long id;
     @Column(nullable = false)
@@ -55,11 +55,15 @@ public class ReportInstanceConfig implements Serializable, Schedulable{
     private String comments;
     private String endpointid;
     private String timezonename;
-    private String wmcomments;
+    private String wmcomment;
 
+    @Transient
     private Integer logId;
+    @Transient
     private Instant nextScheduledRun;
+    @Transient
     private Integer lastRunLogId;
+    @Transient
     private Integer lastSuccessfulRunLogId;
 
 

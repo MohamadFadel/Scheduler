@@ -1,10 +1,10 @@
-package com.cardinalhealth.scheduler.jobs.switchJob;
+package com.wavemark.scheduler.cardinalhealth.scheduler.jobs.switchJob;
 
-import com.cardinalhealth.scheduler.jobs.JobType;
-import com.cardinalhealth.scheduler.jobs.jobTypes.AdHocReport;
-import com.cardinalhealth.scheduler.jobs.jobTypes.EmailReport;
-import com.cardinalhealth.scheduler.jobs.jobTypes.JobTypeExecution;
-import com.cardinalhealth.scheduler.jobs.jobTypes.ScheduleJob;
+import com.wavemark.scheduler.cardinalhealth.scheduler.jobs.jobTypes.AdHocReport;
+import com.wavemark.scheduler.cardinalhealth.scheduler.jobs.jobTypes.EmailReport;
+import com.wavemark.scheduler.cardinalhealth.scheduler.jobs.jobTypes.JobTypeExecution;
+import com.wavemark.scheduler.cardinalhealth.scheduler.jobs.jobTypes.ScheduleJob;
+import com.wavemark.scheduler.cardinalhealth.scheduler.jobs.JobType;
 import org.quartz.JobExecutionContext;
 
 import java.util.Collections;

@@ -1,4 +1,4 @@
-package com.cardinalhealth.scheduler.http;
+package com.wavemark.scheduler.cardinalhealth.scheduler.http;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;

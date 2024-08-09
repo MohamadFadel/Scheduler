@@ -3,6 +3,7 @@ package com.wavemark.scheduler.schedule.service.core;
 import com.wavemark.scheduler.schedule.domain.entity.ReportInstanceConfig;
 import com.wavemark.scheduler.schedule.exception.EntryNotFoundException;
 import com.wavemark.scheduler.schedule.repository.ReportInstanceRepository;
+import com.wavemark.scheduler.testing.util.DataUtil;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -26,7 +27,7 @@ class ReportInstanceServiceTest {
 
     @Test
     void testSaveReportInstance() {
-        ReportInstanceConfig reportInstanceConfig = new ReportInstanceConfig();
+        ReportInstanceConfig reportInstanceConfig = DataUtil.generateReportInstanceConfig();
         reportInstanceService.saveReportInstance(reportInstanceConfig);
         verify(reportInstanceRepository, times(1)).save(reportInstanceConfig);
     }
@@ -42,7 +43,7 @@ class ReportInstanceServiceTest {
     @Test
     void testFindReportById() throws EntryNotFoundException {
         Long reportId = 1L;
-        ReportInstanceConfig reportInstanceConfig = new ReportInstanceConfig();
+        ReportInstanceConfig reportInstanceConfig = DataUtil.generateReportInstanceConfig();
         when(reportInstanceRepository.findById(reportId)).thenReturn(Optional.of(reportInstanceConfig));
         ReportInstanceConfig result = reportInstanceService.findReportById(reportId);
         assertEquals(reportInstanceConfig, result);
@@ -55,11 +56,4 @@ class ReportInstanceServiceTest {
         assertThrows(EntryNotFoundException.class, () -> reportInstanceService.findReportById(reportId));
     }
 
-    @Test
-    void testDeleteReportInstance() {
-        String reportId = "1";
-        reportInstanceService.deleteReportInstance(reportId);
-        // Verify that no interaction occurs with the repository since the method is empty
-        verifyNoMoreInteractions(reportInstanceRepository);
-    }
 }

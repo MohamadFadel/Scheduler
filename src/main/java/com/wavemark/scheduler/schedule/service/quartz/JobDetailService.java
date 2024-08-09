@@ -1,6 +1,6 @@
 package com.wavemark.scheduler.schedule.service.quartz;
 
-import com.cardinalhealth.scheduler.jobs.APPJob;
+import com.wavemark.scheduler.cardinalhealth.scheduler.jobs.APPJob;
 import com.cardinalhealth.service.support.security.SecurityUtilsV2;
 import com.wavemark.scheduler.fire.task.ScheduledTask;
 import com.wavemark.scheduler.schedule.dto.request.TaskInput;
