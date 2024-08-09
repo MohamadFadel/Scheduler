@@ -20,6 +20,7 @@ import com.wavemark.scheduler.schedule.service.web.TaskResponseService;
 import com.wavemark.scheduler.testing.util.DataUtil;
 
 import com.cardinalhealth.service.support.security.SecurityUtils;
+import com.cardinalhealth.service.support.security.SecurityUtilsV2;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -48,8 +49,8 @@ class TaskResponseServiceTest {
         when(cronExpressionService.reverseCronExpression(any(), any()))
                 .thenReturn(new CronDescription(DataUtil.generateTaskFrequencyInput()));
 
-        try (MockedStatic<SecurityUtils> securityUtils = mockStatic(SecurityUtils.class)) {
-            securityUtils.when(SecurityUtils::getCurrentDepartmentTimeZone).thenReturn(ZoneId.systemDefault());
+        try (MockedStatic<SecurityUtilsV2> securityUtils = mockStatic(SecurityUtilsV2.class)) {
+            securityUtils.when(SecurityUtilsV2::getTimezone).thenReturn(ZoneId.systemDefault());
 
             TaskResponse result = taskResponseService.buildTaskResponse(task);
 

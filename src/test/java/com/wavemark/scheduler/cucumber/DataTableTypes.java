@@ -25,6 +25,8 @@ public class DataTableTypes {
         return new TaskInput(
                 entry.get("taskType"),
                 entry.get("description"),
+                entry.get("userToken"),
+                entry.get("reportInstanceId"),
                 entry.get("bodyParam"),
                 taskFrequencyInput,
                 entry.get("emails")

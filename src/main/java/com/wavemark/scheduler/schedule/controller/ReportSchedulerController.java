@@ -1,10 +1,13 @@
 package com.wavemark.scheduler.schedule.controller;
 
+import java.util.List;
+
 import com.wavemark.scheduler.cron.exception.CronExpressionException;
 import com.wavemark.scheduler.schedule.domain.entity.ReportInstanceConfig;
 import com.wavemark.scheduler.logging.performancelogging.constant.LogPerformanceTime;
 import com.wavemark.scheduler.logging.performancelogging.constant.LogType;
 import com.wavemark.scheduler.schedule.constant.Success;
+import com.wavemark.scheduler.schedule.dto.request.ReportSchedulerInput;
 import com.wavemark.scheduler.schedule.dto.request.TaskInput;
 import com.wavemark.scheduler.schedule.exception.EntryNotFoundException;
 import com.wavemark.scheduler.schedule.service.ReportSchedulerService;
@@ -29,10 +32,10 @@ public class ReportSchedulerController {
     @ApiResponses(value = {@ApiResponse(code = 400, message = "Bad request (includes invalid input)")})
     @PostMapping("/reportScheduler")
     @LogPerformanceTime(logType = LogType.APP)
-    public ResponseEntity<?> scheduleReportInstanceConfig(@Valid @RequestBody Object []wrapper)
+    public ResponseEntity<?> scheduleReportInstanceConfig(@Valid @RequestBody ReportSchedulerInput reportSchedulerInput)
             throws SchedulerException, CronExpressionException {
-        TaskInput taskInput = (TaskInput) wrapper[0];
-        ReportInstanceConfig reportInstanceConfig = (ReportInstanceConfig) wrapper[1];
+        TaskInput taskInput = reportSchedulerInput.getTaskInput();
+        ReportInstanceConfig reportInstanceConfig = reportSchedulerInput.getReportInstanceConfig();
 
         reportSchedulerService.scheduleReportInstance(reportInstanceConfig, taskInput);
         return new ResponseEntity<>(new Success(), HttpStatus.OK);

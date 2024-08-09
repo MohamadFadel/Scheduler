@@ -1,3 +1,21 @@
+logging:
+  pattern:
+    console: '%d{dd-MM-yyyy HH:mm:ss.SSS} %magenta([%thread]) %highlight(%-5level) %green(%logger.%M) - %msg%n'
+  file:
+    path: ${SCHEDULER_PATH:/home/oracle/wavemark/logs/wm-scheduler-service}
+    name: wm-scheduler.log
+  level:
+    org:
+      springframework:
+        web: INFO
+    com:
+      wavemark: DEBUG
+  logback:
+    rollingpolicy:
+      max-file-size: 10MB
+      max-history: 10
+
+
 spring:
   application:
     name: Scheduler
@@ -43,6 +61,7 @@ spring:
             dataSource: quartzDataSource
             clusterCheckinInterval: 120000
             isClustered: true
+#            acquireTriggersWithinLock: true
           scheduler:
             instanceName: WMClusteredSchedulerService
             makeSchedulerThreadDaemon: true

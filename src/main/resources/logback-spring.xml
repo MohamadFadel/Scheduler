@@ -28,10 +28,7 @@
     -->
 
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>/home/oracle/wavemark/logs/wm-scheduler-service/wm-scheduler.log</file>
-        <springProfile name="local">
-            <file>/Users/anthony/Logs/wm-scheduler/wm-scheduler.log</file>
-        </springProfile>
+        <file>${LOG_PATH}/${LOG_FILE}</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>${LOG_PATH}/logFile.%d{yyyy-MM-dd}.%i.log.rotated</fileNamePattern>
             <maxHistory>90</maxHistory>
@@ -140,9 +137,7 @@
     <logger name="net.rubyeye.xmemcached" level="OFF">
         <appender-ref ref="FILE"/>
     </logger>
-    <logger name="org.quartz" level="INFO">
-        <appender-ref ref="FILE"/>
-    </logger>
+
 
     <root level="DEBUG">
         <appender-ref ref="FILE"/>

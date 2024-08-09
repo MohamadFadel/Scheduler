@@ -46,7 +46,7 @@ public class ReportSchedulerService {
                 reportInstanceConfig.updateReportInstanceStatus(State.CREATED).mapToReportInstanceDiffable());
         reportInstanceConfig.setLogId(logId);
 
-        reportInstanceService.saveReportInstance(reportInstanceConfig);
+//        reportInstanceService.saveReportInstance(reportInstanceConfig);
     }
 
     public void updateReportInstance(String reportId, ReportInstanceConfig reportInstanceConfig, TaskInput taskInput)

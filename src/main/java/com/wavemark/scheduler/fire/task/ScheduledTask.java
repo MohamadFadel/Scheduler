@@ -7,7 +7,7 @@ import static com.wavemark.scheduler.common.constant.DataMapProperty.NAME;
 
 import java.io.IOException;
 
-//import com.wavemark.scheduler.fire.authentication.service.OAuth2Service;
+import com.wavemark.scheduler.fire.authentication.service.OAuth2Service;
 import com.wavemark.scheduler.fire.http.property.HttpProperty;
 import com.wavemark.scheduler.fire.task.service.ScheduledTaskService;
 import com.wavemark.scheduler.schedule.exception.EntryNotFoundException;
@@ -29,8 +29,8 @@ public class ScheduledTask implements Job {
     @Autowired
     private ScheduledTaskService scheduledTaskService;
 
-//    @Autowired
-////    private OAuth2Service OAuth2Service;
+    @Autowired
+    private OAuth2Service OAuth2Service;
 
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
@@ -39,7 +39,7 @@ public class ScheduledTask implements Job {
         if (jobDataMap.getString(NAME) != null) {
             try {
                 String authToken = "";
-//                OAuth2Service.getWardenAuthToken(jobDataMap);
+                OAuth2Service.getWardenAuthToken(jobDataMap);
 
                 HttpProperty httpProperty = scheduledTaskService.fetchTaskRequestProperty(jobDataMap, authToken);
                 scheduledTaskService.postTask(httpProperty);
@@ -59,7 +59,7 @@ public class ScheduledTask implements Job {
 
         try {
             String authToken = "";
-//                    OAuth2Service.getWardenAuthToken(jobDataMap);
+            OAuth2Service.getWardenAuthToken(jobDataMap);
 
             HttpProperty httpProperty = scheduledTaskService.fetchTaskRequestProperty(jobDataMap, authToken);
             scheduledTaskService.postTask(httpProperty);

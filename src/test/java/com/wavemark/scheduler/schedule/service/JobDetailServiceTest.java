@@ -4,6 +4,8 @@ import com.cardinalhealth.service.support.security.SecurityUtils;
 import com.wavemark.scheduler.schedule.dto.request.TaskInput;
 import com.wavemark.scheduler.schedule.service.quartz.JobDetailService;
 import com.wavemark.scheduler.testing.util.DataUtil;
+
+import com.cardinalhealth.service.support.security.SecurityUtilsV2;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
 
@@ -18,8 +20,8 @@ class JobDetailServiceTest {
 
         JobDetailService jobDetailService = new JobDetailService();
 
-        try (MockedStatic<SecurityUtils> securityUtils = mockStatic(SecurityUtils.class)) {
-            securityUtils.when(SecurityUtils::getCurrentAuthDepartment).thenReturn("testDep");
+        try (MockedStatic<SecurityUtilsV2> securityUtils = mockStatic(SecurityUtilsV2.class)) {
+            securityUtils.when(SecurityUtilsV2::getCurrentAuthDepartment).thenReturn("testDep");
 
             assertNotNull(jobDetailService.buildJobDetail(taskInput, "testJobName"));
         }

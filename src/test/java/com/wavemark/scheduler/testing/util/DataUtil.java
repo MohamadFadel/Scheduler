@@ -1,6 +1,6 @@
 package com.wavemark.scheduler.testing.util;
 
-import com.cardinalhealth.scheduler.jobs.APPJob;
+import com.wavemark.scheduler.cardinalhealth.scheduler.jobs.APPJob;
 import com.cardinalhealth.service.support.constant.ContentType;
 import com.cardinalhealth.service.support.models.Email;
 import com.wavemark.scheduler.fire.constant.TriggerState;

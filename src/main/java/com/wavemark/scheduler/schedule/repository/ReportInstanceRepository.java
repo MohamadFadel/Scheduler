@@ -7,7 +7,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ReportInstanceRepository extends JpaRepository<ReportInstanceConfig, Long> {
-    String REPORTINSTANCECONFIG_REPORTID_NEXTVAL = "SELECT REPORTINSTANCECONFIG_REPORTID_SEQ.NEXTVAL AS ReportId FROM DUAL";
+
+    String REPORTINSTANCECONFIG_REPORTID_NEXTVAL = "SELECT ReportInstanceConfig_ID_SEQ.NEXTVAL AS ReportId FROM DUAL";
     @Query(nativeQuery = true, value = REPORTINSTANCECONFIG_REPORTID_NEXTVAL)
     Long getReportIdNextValueSequence();
 }

@@ -61,12 +61,11 @@ class TaskRunLogServiceTest {
     @Test
     void buildTaskLog() throws SchedulerException {
         Trigger trigger = Mockito.spy(Trigger.class);
-        when(trigger.getPreviousFireTime()).thenReturn(new Date());
+//        when(trigger.getPreviousFireTime()).thenReturn(new Date());
         when(schedulerFactoryBean.getScheduler()).thenReturn(scheduler);
         when(scheduler.getSchedulerInstanceId()).thenReturn("testInstance");
 
-        TaskRunLog taskRunLog = taskRunLogService.buildTaskRunLog(DataUtil.generateTask(), trigger,
-                "responseMessage", 200, 54L);
+        TaskRunLog taskRunLog = taskRunLogService.buildTaskRunLog(DataUtil.generateTask(), "responseMessage", 200, 54L);
 
         assertNotNull(taskRunLog);
     }
@@ -76,12 +75,11 @@ class TaskRunLogServiceTest {
         String responseMessage = RandomStringUtils.random(4005);
 
         Trigger trigger = Mockito.spy(Trigger.class);
-        when(trigger.getPreviousFireTime()).thenReturn(new Date());
+//        when(trigger.getPreviousFireTime()).thenReturn(new Date());
         when(schedulerFactoryBean.getScheduler()).thenReturn(scheduler);
         when(scheduler.getSchedulerInstanceId()).thenReturn("testInstance");
 
-        TaskRunLog taskRunLog = taskRunLogService.buildTaskRunLog(DataUtil.generateTask(), trigger,
-                responseMessage, 200, 65L);
+        TaskRunLog taskRunLog = taskRunLogService.buildTaskRunLog(DataUtil.generateTask(), responseMessage, 200, 65L);
 
         assertNotNull(taskRunLog);
     }
