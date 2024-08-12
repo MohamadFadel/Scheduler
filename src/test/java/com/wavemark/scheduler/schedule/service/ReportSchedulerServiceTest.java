@@ -17,6 +17,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.quartz.SchedulerException;
 
+import java.text.ParseException;
+
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -48,7 +50,7 @@ public class ReportSchedulerServiceTest {
     }
 
     @Test
-    void testScheduleReportInstance() throws SchedulerException, CronExpressionException {
+    void testScheduleReportInstance() throws SchedulerException, CronExpressionException, ParseException {
         when(reportInstanceService.getNewReportId()).thenReturn(1L);
         when(recordLogService.logDiffableRecordLog(any(), any(), any())).thenReturn(1);
         when(reportInstanceService.buildReportInstanceConfig(any())).thenReturn(reportInstanceConfig);
@@ -67,7 +69,7 @@ public class ReportSchedulerServiceTest {
     }
 
     @Test
-    void testScheduleReportInstanceThrowsCronExpressionException() throws CronExpressionException, SchedulerException {
+    void testScheduleReportInstanceThrowsCronExpressionException() throws CronExpressionException, SchedulerException, ParseException {
         when(reportInstanceService.getNewReportId()).thenReturn(1L);
         when(reportInstanceService.buildReportInstanceConfig(any())).thenReturn(reportInstanceConfig);
         doThrow(new CronExpressionException("Invalid Cron Expression"))
@@ -81,7 +83,7 @@ public class ReportSchedulerServiceTest {
     }
 
     @Test
-    void testScheduleReportInstanceThrowsSchedulerException() throws SchedulerException, CronExpressionException {
+    void testScheduleReportInstanceThrowsSchedulerException() throws SchedulerException, CronExpressionException, ParseException {
         when(reportInstanceService.getNewReportId()).thenReturn(1L);
         when(reportInstanceService.buildReportInstanceConfig(any())).thenReturn(reportInstanceConfig);
         doThrow(new SchedulerException())
@@ -95,9 +97,9 @@ public class ReportSchedulerServiceTest {
     }
 
     @Test
-    void testUpdateReportInstance() throws SchedulerException, CronExpressionException, EntryNotFoundException {
+    void testUpdateReportInstance() throws SchedulerException, CronExpressionException, EntryNotFoundException, ParseException {
         when(reportInstanceService.findReportById(1L)).thenReturn(reportInstanceConfig);
-        when(reportInstanceService.buildReportInstanceConfig(any())).thenReturn(reportInstanceConfig);
+        when(reportInstanceService.updateReportInstanceConfig(any(), any())).thenReturn(reportInstanceConfig);
         when(recordLogService.logDiffableRecordLog(any(), any(), any())).thenReturn(1);
         doNothing().when(quartzService).rescheduleJob(any(), any(), any());
         doNothing().when(reportInstanceService).saveReportInstance(any());
@@ -111,9 +113,9 @@ public class ReportSchedulerServiceTest {
     }
 
     @Test
-    void testUpdateReportInstanceThrowsCronExpressionException() throws CronExpressionException, SchedulerException, EntryNotFoundException {
+    void testUpdateReportInstanceThrowsCronExpressionException() throws CronExpressionException, SchedulerException, EntryNotFoundException, ParseException {
         when(reportInstanceService.findReportById(1L)).thenReturn(reportInstanceConfig);
-        when(reportInstanceService.buildReportInstanceConfig(any())).thenReturn(reportInstanceConfig);
+        when(reportInstanceService.updateReportInstanceConfig(any(), any())).thenReturn(reportInstanceConfig);
         doThrow(new CronExpressionException("Invalid Cron Expression"))
                 .when(quartzService).rescheduleJob(any(), any(), any());
 
@@ -125,9 +127,9 @@ public class ReportSchedulerServiceTest {
     }
 
     @Test
-    void testUpdateReportInstanceThrowsSchedulerException() throws SchedulerException, CronExpressionException, EntryNotFoundException {
+    void testUpdateReportInstanceThrowsSchedulerException() throws SchedulerException, CronExpressionException, EntryNotFoundException, ParseException {
         when(reportInstanceService.findReportById(1L)).thenReturn(reportInstanceConfig);
-        when(reportInstanceService.buildReportInstanceConfig(any())).thenReturn(reportInstanceConfig);
+        when(reportInstanceService.updateReportInstanceConfig(any(),any())).thenReturn(reportInstanceConfig);
         doThrow(new SchedulerException())
                 .when(quartzService).rescheduleJob(any(), any(), any());
 
@@ -141,7 +143,6 @@ public class ReportSchedulerServiceTest {
     @Test
     void testUpdateReportInstanceThrowsEntryNotFoundException() throws SchedulerException, CronExpressionException, EntryNotFoundException {
         when(reportInstanceService.findReportById(1L)).thenThrow(new EntryNotFoundException());
-        when(reportInstanceService.buildReportInstanceConfig(any())).thenReturn(reportInstanceConfig);
 
         assertThrows(EntryNotFoundException.class,
                 () -> reportSchedulerService.updateReportInstance("1", reportInstanceInput, taskInput));

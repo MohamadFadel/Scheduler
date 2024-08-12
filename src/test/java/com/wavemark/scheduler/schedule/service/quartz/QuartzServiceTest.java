@@ -13,6 +13,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.quartz.*;
 
+import java.text.ParseException;
 import java.util.Date;
 
 import static com.wavemark.scheduler.common.constant.DataMapProperty.CLUSTERED_JOBS_GROUP;
@@ -55,7 +56,7 @@ public class QuartzServiceTest {
     }
 
     @Test
-    void testBuildJob() throws CronExpressionException, SchedulerException {
+    void testBuildJob() throws CronExpressionException, SchedulerException, ParseException {
         when(cronService.generateCronExpression(any())).thenReturn("0 0/5 * * * ?");
         when(jobDetailService.buildOldJobDetail(any())).thenReturn(jobDetail);
         when(triggerService.buildOldTrigger(any(),any(),any())).thenReturn(trigger);
@@ -108,7 +109,7 @@ public class QuartzServiceTest {
     }
 
     @Test
-    void testRescheduleJob() throws SchedulerException, CronExpressionException {
+    void testRescheduleJob() throws SchedulerException, CronExpressionException, ParseException {
         when(cronService.generateCronExpression(any())).thenReturn("0 0/5 * * * ?");
         doNothing().when(clusteredScheduler).pauseJob(any());
         when(jobDetailService.buildOldJobDetail(any())).thenReturn(jobDetail);

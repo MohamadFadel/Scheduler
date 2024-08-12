@@ -15,6 +15,8 @@ import org.quartz.SchedulerException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.text.ParseException;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
@@ -28,7 +30,7 @@ public class ReportSchedulerControllerTest {
 
 
     @Test
-    void testScheduleReportInstanceConfig() throws SchedulerException, CronExpressionException {
+    void testScheduleReportInstanceConfig() throws SchedulerException, CronExpressionException, ParseException {
         ReportSchedulerInput reportSchedulerInput = DataUtil.generateReportSchedulerInput();
 
         doNothing().when(reportSchedulerService).scheduleReportInstance(any(), any());
@@ -41,7 +43,7 @@ public class ReportSchedulerControllerTest {
     }
 
     @Test
-    void testUpdateReportInstanceConfig() throws SchedulerException, CronExpressionException, EntryNotFoundException {
+    void testUpdateReportInstanceConfig() throws SchedulerException, CronExpressionException, EntryNotFoundException, ParseException {
         ReportSchedulerInput reportSchedulerInput = DataUtil.generateReportSchedulerInput();
 
         ResponseEntity<?> responseEntity = reportSchedulerController.updateReportInstanceConfig("1", reportSchedulerInput);

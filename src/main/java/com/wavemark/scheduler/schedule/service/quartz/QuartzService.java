@@ -10,6 +10,9 @@ import org.quartz.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.ParseException;
+import java.util.Date;
+
 import static com.wavemark.scheduler.common.constant.DataMapProperty.CLUSTERED_JOBS_GROUP;
 
 @Service
@@ -23,12 +26,15 @@ public class QuartzService {
     private final CronExpressionService cronService;
 
 
-    public void buildJob(TaskInput taskInput, ReportInstanceConfig reportInstanceConfig) throws CronExpressionException, SchedulerException {
+    public void buildJob(TaskInput taskInput, ReportInstanceConfig reportInstanceConfig) throws CronExpressionException, SchedulerException, ParseException {
         log.info("Creating a Job Detail");
         JobDetail jobDetail = jobDetailService.buildOldJobDetail(taskInput);
 
         String cronExpression=cronService.generateCronExpression(taskInput.getTaskFrequencyInput());
         reportInstanceConfig.setCronschedule(cronExpression);
+
+        CronExpression cronExpressionObj = new CronExpression(cronExpression);
+        reportInstanceConfig.setNextScheduledRun(cronExpressionObj.getNextValidTimeAfter(new Date()).toInstant());
 
         log.info("Creating a cron trigger");
         Trigger trigger = triggerService.buildOldTrigger(cronExpression, taskInput, jobDetail);
@@ -40,12 +46,15 @@ public class QuartzService {
         clusteredScheduler.pauseJob(jobKey);
     }
 
-    public void rescheduleJob(String reportId, TaskInput taskInput, ReportInstanceConfig reportInstanceConfig) throws SchedulerException, CronExpressionException {
+    public void rescheduleJob(String reportId, TaskInput taskInput, ReportInstanceConfig reportInstanceConfig) throws SchedulerException, CronExpressionException, ParseException {
         log.info("Creating a Job Detail");
         JobDetail jobDetail = jobDetailService.buildOldJobDetail(taskInput);
 
         String cronExpression=cronService.generateCronExpression(taskInput.getTaskFrequencyInput());
         reportInstanceConfig.setCronschedule(cronExpression);
+
+        CronExpression cronExpressionObj = new CronExpression(cronExpression);
+        reportInstanceConfig.setNextScheduledRun(cronExpressionObj.getNextValidTimeAfter(new Date()).toInstant());
 
         log.info("Creating a cron trigger");
         Trigger trigger = triggerService.buildOldTrigger(cronExpression, taskInput, jobDetail);

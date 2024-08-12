@@ -39,6 +39,42 @@ public class ReportInstanceService {
                 .build();
     }
 
+    public ReportInstanceConfig updateReportInstanceConfig(ReportInstanceConfig dbReportInstanceConfig, ReportInstanceInput reportInstanceInput){
+
+        ReportInstanceConfig reportInstanceConfig = new ReportInstanceConfig();
+//        String cronExpression = cronExpressionService.generateCronExpression(reportInstanceInput.getTaskFrequencyInput());
+
+        reportInstanceConfig.setId(dbReportInstanceConfig.getId());
+        reportInstanceConfig.setReportname(reportInstanceInput.getReportName());
+        reportInstanceConfig.setLastRunLogId(dbReportInstanceConfig.getLastRunLogId());
+        reportInstanceConfig.setLastSuccessfulRunLogId(dbReportInstanceConfig.getLastSuccessfulRunLogId());
+        reportInstanceConfig.setEndpointid(dbReportInstanceConfig.getEndpointid());
+
+        reportInstanceConfig.setStatus(dbReportInstanceConfig.getStatus());
+        reportInstanceConfig.setLogId(dbReportInstanceConfig.getLogId());
+
+        reportInstanceConfig.setComments(reportInstanceInput.getComments());
+        reportInstanceConfig.setLastupdateddate(new Timestamp(new Date().getTime()));
+//        reportInstanceConfig.setLastUpdatedBy(SecurityUtilsV2.getWebAppUserInfo().getFullName());
+//        reportInstanceConfig.setConfiguration(reportInstanceInput.getBodyParam().toCharArray());
+//        reportInstanceConfig.setCronExpression(cronExpression);
+//        reportInstanceConfig.setCreatedBy(dbReportInstanceConfig.getCreatedBy());
+//        reportInstanceConfig.setCreatedOn(dbReportInstanceConfig.getCreatedOn());
+//        reportInstanceConfig.setTaskTypeId(dbReportInstanceConfig.getTaskTypeId());
+
+        reportInstanceConfig.setEmailrecipients(reportInstanceInput.getEmailRecipients());
+        reportInstanceConfig.setTimezonename(reportInstanceInput.getTimezone());
+        reportInstanceConfig.setActionname(reportInstanceInput.getActionName());
+        reportInstanceConfig.setClassname(reportInstanceInput.getClassName());
+        reportInstanceConfig.setEmailformat(reportInstanceInput.getEmailFormat());
+        reportInstanceConfig.setEmailifempty(reportInstanceInput.getEmailIfEmpty());
+        reportInstanceConfig.setReportstate(reportInstanceInput.getReportState().toCharArray());
+        reportInstanceConfig.setReportinstancename(reportInstanceInput.getReportInstanceName());
+        reportInstanceConfig.setUserid(SecurityUtilsV2.getCurrentAuthUser());
+
+        return reportInstanceConfig;
+    }
+
     public void saveReportInstance(ReportInstanceConfig reportInstanceConfig) {
         reportInstanceRepository.save(reportInstanceConfig);
     }

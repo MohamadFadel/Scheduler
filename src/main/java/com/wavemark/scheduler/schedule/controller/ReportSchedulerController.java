@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.text.ParseException;
 
 
 @RestController
@@ -29,7 +30,7 @@ public class ReportSchedulerController {
     @PostMapping("/reportScheduler")
     @LogPerformanceTime(logType = LogType.APP)
     public ResponseEntity<?> scheduleReportInstanceConfig(@Valid @RequestBody ReportSchedulerInput reportSchedulerInput)
-            throws SchedulerException, CronExpressionException {
+            throws SchedulerException, CronExpressionException, ParseException {
 
         reportSchedulerService.scheduleReportInstance(reportSchedulerInput.getReportInstanceInput(), reportSchedulerInput.getTaskInput());
         return new ResponseEntity<>(new Success(), HttpStatus.OK);
@@ -39,7 +40,7 @@ public class ReportSchedulerController {
     @PostMapping("/reportScheduler/{reportId}")
     @LogPerformanceTime(logType = LogType.APP)
     public ResponseEntity<?> updateReportInstanceConfig(@Valid @PathVariable String reportId, @RequestBody ReportSchedulerInput reportSchedulerInput)
-            throws SchedulerException, CronExpressionException, EntryNotFoundException {
+            throws SchedulerException, CronExpressionException, EntryNotFoundException, ParseException {
 
         reportSchedulerService.updateReportInstance(reportId, reportSchedulerInput.getReportInstanceInput(), reportSchedulerInput.getTaskInput());
         return new ResponseEntity<>(new Success(), HttpStatus.OK);

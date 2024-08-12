@@ -1,9 +1,9 @@
 package com.wavemark.scheduler.schedule.service;
 
 import com.wavemark.scheduler.cron.exception.CronExpressionException;
-import com.wavemark.scheduler.schedule.domain.entity.ReportInstanceConfig;
 import com.wavemark.scheduler.logging.recordlog.service.RecordLogService;
 import com.wavemark.scheduler.schedule.constant.State;
+import com.wavemark.scheduler.schedule.domain.entity.ReportInstanceConfig;
 import com.wavemark.scheduler.schedule.dto.request.ReportInstanceInput;
 import com.wavemark.scheduler.schedule.dto.request.TaskInput;
 import com.wavemark.scheduler.schedule.exception.EntryNotFoundException;
@@ -14,6 +14,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.quartz.SchedulerException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.text.ParseException;
 
 @Service
 @RequiredArgsConstructor
@@ -29,7 +31,7 @@ public class ReportSchedulerService {
 
 
     public void scheduleReportInstance(ReportInstanceInput reportInstanceInput, TaskInput taskInput)
-            throws SchedulerException, CronExpressionException {
+            throws SchedulerException, CronExpressionException, ParseException {
 //        log.info("Creating a Job Detail");
 //        JobDetail jobDetail = jobDetailService.buildOldJobDetail(taskInput);
 //
@@ -53,10 +55,11 @@ public class ReportSchedulerService {
     }
 
     public void updateReportInstance(String reportId, ReportInstanceInput reportInstanceInput, TaskInput taskInput)
-            throws SchedulerException, CronExpressionException, EntryNotFoundException {
+            throws SchedulerException, CronExpressionException, EntryNotFoundException, ParseException {
 
-        ReportInstanceConfig reportInstanceConfig = reportInstanceService.buildReportInstanceConfig(reportInstanceInput);
         ReportInstanceConfig oldReportInstanceConfig = reportInstanceService.findReportById(Long.parseLong(reportId));
+        ReportInstanceConfig reportInstanceConfig = reportInstanceService.updateReportInstanceConfig(oldReportInstanceConfig, reportInstanceInput);
+
 //        JobKey jobKey = new JobKey(reportId, CLUSTERED_JOBS_GROUP);
 //        TriggerKey triggerKey = new TriggerKey(reportId + "_TRG", CLUSTERED_JOBS_GROUP);
 //        clusteredScheduler.pauseJob(jobKey);
