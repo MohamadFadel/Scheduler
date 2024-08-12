@@ -1,6 +1,8 @@
 package com.wavemark.scheduler.fire.http.response;
 
+import com.wavemark.scheduler.schedule.domain.entity.ReportInstanceConfig;
 import com.wavemark.scheduler.schedule.domain.entity.Task;
+import com.wavemark.scheduler.schedule.service.core.ReportInstanceService;
 import com.wavemark.scheduler.schedule.service.core.TaskRunLogService;
 import com.wavemark.scheduler.schedule.service.core.TaskService;
 import com.wavemark.scheduler.schedule.service.quartz.TriggerService;
@@ -19,8 +21,7 @@ import java.util.Date;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class ResponseLogServiceTest {
@@ -31,6 +32,8 @@ class ResponseLogServiceTest {
 	private TaskService taskService;
 	@Mock
 	private TriggerService triggerService;
+	@Mock
+	private ReportInstanceService reportInstanceService;
 
 	@InjectMocks
 	private ResponseLogService responseLogService;
@@ -40,6 +43,7 @@ class ResponseLogServiceTest {
 	void logResponse() throws SchedulerException {
 
 		doReturn(1).when(taskService).saveTask(any());
+		doNothing().when(reportInstanceService).saveReportInstance(any());
 
 		Trigger trigger = Mockito.spy(Trigger.class);
 		when(trigger.getNextFireTime()).thenReturn(new Date());
@@ -49,12 +53,14 @@ class ResponseLogServiceTest {
 		doReturn(2).when(taskRunLogService).saveTaskRunLog(any());
 
 		assertDoesNotThrow(() -> responseLogService.logResponse(new Task(), DataUtil.generateSuccessResponse(), 54L));
+		assertDoesNotThrow(() -> responseLogService.logResponse(DataUtil.generateReportInstanceConfig(), DataUtil.generateSuccessResponse(), 54L));
 	}
 
 	@Test
 	void logResponseError() throws SchedulerException {
 
 		doReturn(1).when(taskService).saveTask(any());
+		doNothing().when(reportInstanceService).saveReportInstance(any());
 
 		Trigger trigger = Mockito.spy(Trigger.class);
 		when(trigger.getNextFireTime()).thenReturn(new Date());
@@ -64,5 +70,6 @@ class ResponseLogServiceTest {
 		doReturn(2).when(taskRunLogService).saveTaskRunLog(any());
 
 		assertDoesNotThrow(() -> responseLogService.logResponseError(new Task(), DataUtil.generateResponse(), 87L));
+		assertDoesNotThrow(() -> responseLogService.logResponseError(new ReportInstanceConfig(), DataUtil.generateResponse(), 87L));
 	}
 }
