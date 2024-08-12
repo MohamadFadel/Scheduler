@@ -66,7 +66,9 @@ public class ReportSchedulerService {
 //        reportInstanceConfig.setCronschedule(cronExpression);
 //
 //        Trigger trigger = triggerService.buildOldTrigger(cronExpression, taskInput, jobDetail);
-        quartzService.rescheduleJob(reportId, taskInput, oldReportInstanceConfig);
+        taskInput.setReportInstanceId(reportId);
+        reportInstanceConfig.setId(new Long(reportId));
+        quartzService.rescheduleJob(reportId, taskInput, reportInstanceConfig);
 
         Integer logId = recordLogService.logDiffableRecordLog(oldReportInstanceConfig.getLogId(), oldReportInstanceConfig.mapToReportInstanceDiffable(),
                 reportInstanceConfig.mapToReportInstanceDiffable());

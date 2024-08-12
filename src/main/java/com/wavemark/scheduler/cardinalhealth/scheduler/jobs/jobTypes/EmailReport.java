@@ -6,6 +6,7 @@ import org.apache.http.NameValuePair;
 import org.quartz.JobExecutionContext;
 
 import java.util.List;
+
 public class EmailReport extends JobExecutionPrep implements JobTypeExecution
 {
   private final String urlActionName = "EmailReportJob";

@@ -29,7 +29,7 @@ public class ReportInstanceService {
                 .emailrecipients(reportInstanceInput.getEmailRecipients())
                 .id(reportInstanceInput.getReportInstanceId())
                 .status(reportInstanceInput.getStatus())
-                .reportstate(reportInstanceInput.getReportState().toString().toCharArray())
+                .reportstate(reportInstanceInput.getReportState().toCharArray())
                 .reportinstancename(reportInstanceInput.getReportInstanceName())
                 .reportname(reportInstanceInput.getReportName())
                 .timezonename(reportInstanceInput.getTimezone())

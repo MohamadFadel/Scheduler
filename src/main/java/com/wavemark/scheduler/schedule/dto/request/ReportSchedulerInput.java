@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReportSchedulerInput {
+
     TaskInput taskInput;
     ReportInstanceInput reportInstanceInput;
 }

@@ -46,7 +46,7 @@ public abstract class DataUtil {
                 .reportInstanceName("Test Instance")
                 .userId("TestUser")
                 .endPointIdHospDept("Endpoint1")
-                .reportState(new JSONObject())
+                .reportState("state")
                 .emailFormat("text")
                 .emailRecipients("test@example.com")
                 .comments("Test comments")

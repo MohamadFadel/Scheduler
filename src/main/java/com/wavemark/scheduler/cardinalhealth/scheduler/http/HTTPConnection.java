@@ -5,6 +5,7 @@ import com.wavemark.scheduler.fire.http.property.HttpProperty;
 import com.wavemark.scheduler.fire.http.response.ResponseHandler;
 import com.wavemark.scheduler.schedule.exception.EntryNotFoundException;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import okhttp3.MediaType;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -19,12 +20,14 @@ import java.io.IOException;
 import java.util.List;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class HTTPConnection
 {
-  private ResponseHandler responseHandler;
+  private final ResponseHandler responseHandler;
+
   public void sendHTTPRequest(List<NameValuePair> postParams, HttpProperty httpProperty)
           throws IOException, ClientProtocolException, SchedulerException, EntryNotFoundException {
+
 //    Logger logger = LogManager.getLogger(HTTPConnection.class);
 //    HttpClient client = HttpClientBuilder.create().build();
 //    HttpPost post = new HttpPost(httpProperty.getUrl());

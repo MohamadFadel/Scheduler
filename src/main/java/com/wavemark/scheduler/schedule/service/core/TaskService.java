@@ -73,7 +73,7 @@ public class TaskService {
                 .taskName(jobName)
                 .sourceIdEndpointId(endpointId)
                 .description(taskInput.getDescription())
-//                .createdBy(SecurityUtilsV2.getWebAppUserInfo().getFullName())
+                .createdBy(SecurityUtilsV2.getWebAppUserInfo().getFullName())
                 .createdOn(Instant.now())
                 .taskStatus(String.valueOf(State.ACTIVE))
                 .configuration(taskInput.getBodyParam().toCharArray())
@@ -106,7 +106,7 @@ public class TaskService {
         task.setLogId(dbTask.getLogId());
 
         task.setDescription(taskInput.getDescription());
-//        task.setLastUpdatedBy(SecurityUtilsV2.getWebAppUserInfo().getFullName());
+        task.setLastUpdatedBy(SecurityUtilsV2.getWebAppUserInfo().getFullName());
         task.setLastUpdatedOn(Instant.now());
         task.setConfiguration(taskInput.getBodyParam().toCharArray());
         task.setEmailToList(taskInput.getEmails());

@@ -5,22 +5,27 @@ import com.wavemark.scheduler.cardinalhealth.scheduler.jobs.switchJob.JobSupplie
 import com.wavemark.scheduler.cardinalhealth.scheduler.http.HTTPConnection;
 import com.wavemark.scheduler.fire.http.property.HttpProperty;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import static com.wavemark.scheduler.common.constant.DataMapProperty.ENDPOINT_NAME;
-@Service
-@AllArgsConstructor
+
+@Component
+@NoArgsConstructor
 public class APPJob extends AbstractJob
 {
-  Logger logger = LogManager.getLogger(APPJob.class);
-  private final HTTPConnection httpConnection;
+  @Autowired
+  private HTTPConnection httpConnection;
 
-  public void execute(JobExecutionContext jobExecutionContext)
-    throws JobExecutionException
+  @Override
+  public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException
   {
     logger.info("Invoke execute in App Job");
     JobTypeExecution job = getJobTypeExecution (jobExecutionContext);

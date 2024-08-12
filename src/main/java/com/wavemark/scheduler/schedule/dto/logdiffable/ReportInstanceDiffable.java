@@ -25,7 +25,7 @@ public class ReportInstanceDiffable implements Serializable, LogDiffable<ReportI
 //    private Integer reportTypeId;
     private String status;
     private String comments;
-    private String configuration;
+//    private String configuration;
     private String emailrecipients;
     private String cronschedule;
 //    private String hospitalDepartmentTimeZone;
