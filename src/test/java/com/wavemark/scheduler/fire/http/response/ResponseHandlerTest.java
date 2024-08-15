@@ -30,6 +30,9 @@ class ResponseHandlerTest {
     private Response response;
 
     @Mock
+    private org.apache.http.HttpResponse JobResponse;
+
+    @Mock
     private TaskService taskService;
 
     @Mock
@@ -66,7 +69,7 @@ class ResponseHandlerTest {
         try (MockedStatic<ResponseFactory> responseFactoryMockedStatic = mockStatic(ResponseFactory.class)) {
             responseFactoryMockedStatic.when(() -> ResponseFactory.initializeHttpResponse(any())).thenReturn(HttpResponse.builder().success(true).build());
 
-            assertDoesNotThrow(() -> responseHandler.handleJob(DataUtil.generateOldHttpProperty(), response, 76L));
+            assertDoesNotThrow(() -> responseHandler.handleJob(DataUtil.generateOldHttpProperty(), JobResponse, 76L));
         }
     }
 
@@ -96,7 +99,7 @@ class ResponseHandlerTest {
             responseFactoryMockedStatic.when(() -> ResponseFactory.initializeHttpResponse(any()))
                     .thenReturn(HttpResponse.builder().success(false).code(412).build());
 
-            assertDoesNotThrow(() -> responseHandler.handleJob(DataUtil.generateOldHttpProperty(), response, 76L));
+            assertDoesNotThrow(() -> responseHandler.handleJob(DataUtil.generateOldHttpProperty(), JobResponse, 76L));
         }
     }
 
@@ -128,7 +131,7 @@ class ResponseHandlerTest {
         try (MockedStatic<ResponseFactory> responseFactoryMockedStatic = mockStatic(ResponseFactory.class)) {
             responseFactoryMockedStatic.when(() -> ResponseFactory.initializeHttpResponse(any())).thenReturn(httpResponse);
 
-            assertThrows(JobExecutionException.class, () -> responseHandler.handleJob(DataUtil.generateOldHttpProperty(), response, 54L));
+            assertThrows(JobExecutionException.class, () -> responseHandler.handleJob(DataUtil.generateOldHttpProperty(), JobResponse, 54L));
         }
     }
 

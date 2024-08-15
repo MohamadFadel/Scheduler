@@ -45,11 +45,11 @@ public class ResponseHandler {
         }
     }
 
-    public void handleJob(HttpProperty httpProperty, Response response, long time)
+    public void handleJob(HttpProperty httpProperty, org.apache.http.HttpResponse response, long time)
             throws SchedulerException, EntryNotFoundException, IOException {
 
-//        HttpResponse httpResponse = ResponseFactory.buildHttpResponse(response, httpProperty.getUrl());
-        HttpResponse httpResponse = ResponseFactory.initializeHttpResponse(response);
+        HttpResponse httpResponse = ResponseFactory.buildHttpResponse(response, httpProperty.getUrl());
+//        HttpResponse httpResponse = ResponseFactory.initializeHttpResponse(response);
 
         ReportInstanceConfig reportInstanceConfig = reportInstanceService.findReportById(Long.parseLong(httpProperty.getTaskName()));
 
