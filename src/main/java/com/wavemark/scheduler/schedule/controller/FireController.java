@@ -28,4 +28,12 @@ public class FireController {
 		scheduledTask.fireTask(jobName, bodyParam);
 		return new ResponseEntity<>("done", HttpStatus.OK);
 	}
+
+	@GetMapping(path = "/tasks/fire", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> fire(@RequestParam String jobName, @RequestParam String bodyParam)
+			throws JobExecutionException {
+
+		scheduledTask.fireTask(jobName, bodyParam);
+		return new ResponseEntity<>("done", HttpStatus.OK);
+	}
 }
