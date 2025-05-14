@@ -45,6 +45,12 @@ public class TaskStateService {
         task.setLogId(logId);
         task.setTaskStatus(String.valueOf(State.PAUSED));
         taskService.saveTask(task);
+        task.setLogId(logId);
+        task.setTaskStatus(String.valueOf(State.PAUSED));
+        taskService.saveTask(task);
+        task.setLogId(logId);
+        task.setTaskStatus(String.valueOf(State.PAUSED));
+        taskService.saveTask(task);
 
         log.info("Task Paused successfully for: " + taskId);
     }

@@ -44,16 +44,3 @@ spring:
           starttls:
             enable: true
 
-logging:
-  level:
-    org:
-      springframework:
-        web: INFO
-    com:
-      wavemark: DEBUG
-
-application:
-  host: #HOST
-  mail:
-    from-email: DoNotReply@wavemark.com
-    support-emails: mohamad.fadel@cardinalhealth.com, anthony.badran@cardinalhealth.com, mohammad.estaytieh@cardinalhealth.com, chloe.mhanna@cardinalhealth.com
