@@ -64,10 +64,10 @@ spring:
           writetimeout: 50000
           auth: false
           starttls:
-            enable: true
+            enable: false
   mvc:
     pathmatch:
-      matching-strategy: ant_path_matcher
+      matching-strategy: true
 
 application:
   use:
