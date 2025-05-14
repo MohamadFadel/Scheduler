@@ -6,7 +6,6 @@ import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
 public class RMIJob
-  implements Job
 {
   public RMIJob()
   {
@@ -19,5 +18,6 @@ public class RMIJob
   {
     APPJob appJob = new APPJob();
     appJob.execute(jobExecutionContext);
+    return;
   }
 }
