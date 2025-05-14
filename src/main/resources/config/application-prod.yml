@@ -29,8 +29,3 @@ spring:
           auth: false
           starttls:
             enable: true
-application:
-  host: https://wmprod.cardinalhealth.net
-  mail:
-    from-email: DoNotReply@wavemark.com
-    support-emails: mohamad.fadel@cardinalhealth.com, mohammad.estaytieh@cardinalhealth.com, mohamad.melhem@cardinalhealth.com
