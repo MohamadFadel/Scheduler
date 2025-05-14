@@ -19,5 +19,6 @@ public class RMIJob
   {
     APPJob appJob = new APPJob();
     appJob.execute(jobExecutionContext);
+    return;
   }
 }
