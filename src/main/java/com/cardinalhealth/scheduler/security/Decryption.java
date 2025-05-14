@@ -37,25 +37,4 @@ public class Decryption
     }
     return data;
   }
-
-  private static byte[] decryptASESToByte(byte[] encryptedObj, String key)
-    throws Exception
-  {
-    byte[] result = null;
-    try
-    {
-      SecretKeySpec spec = new SecretKeySpec(key.getBytes(), "AES");
-      IvParameterSpec ivSpec = new IvParameterSpec(STATIC_IV.getBytes());
-
-      Cipher aesCipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-
-      aesCipher.init(Cipher.DECRYPT_MODE, spec, ivSpec);
-      result = aesCipher.doFinal(encryptedObj);
-    }
-    catch (Exception e)
-    {
-      throw new Exception("Failed to decrypt AES-encrypted string.", e);
-    }
-    return result;
-  }
 }
